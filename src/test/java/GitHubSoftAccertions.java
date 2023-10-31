@@ -23,11 +23,19 @@ public class GitHubSoftAccertions {
         $("#repository-container-header").shouldHave(text("selenide / selenide"));
         $("#wiki-tab").click();
         $("#user-content-welcome-to-the-selenide-wiki").shouldHave(text("Welcome to the selenide wiki!"));
-        $(".markdown-body").$(byText("Soft assertions")).click();
+        $("#wiki-pages-filter").setValue("Softassertions").pressEnter();
+        $("a[href='/selenide/selenide/wiki/SoftAssertions']").click();
         $(".gh-header-title").shouldHave(text("SoftAssertions"));
-        $("#wiki-body").shouldHave(text("com.codeborne.selenide.junit5.SoftAssertsExtension"));
-        $("#wiki-body").shouldHave(text("@ExtendWith"));
-        $("#wiki-body").shouldHave(text("SoftAssertsExtension"));
-
+        $("#wiki-body").shouldHave(text("@ExtendWith({SoftAssertsExtension.class})\n" +
+                "class Tests {\n" +
+                "  @Test\n" +
+                "  void test() {\n" +
+                "    Configuration.assertionMode = SOFT;\n" +
+                "    open(\"page.html\");\n" +
+                "\n" +
+                "    $(\"#first\").should(visible).click();\n" +
+                "    $(\"#second\").should(visible).click();\n" +
+                "  }\n" +
+                "}"));
     }
 }
